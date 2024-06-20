@@ -40,7 +40,7 @@ class YfinanceCrawler:
         try:
             checkbox = menu.find_element(By.XPATH, f"//span[contains(text(), '{self.region}')]/../input[@type='checkbox']")
             checkbox.click()
-            
+        #Caso a regiao desejada nao seja um dos filtros diponiveis    
         except NoSuchElementException:
             print(f"A região '{self.region}' não é um filtro disponível neste momento.")
             self.driver.close()
