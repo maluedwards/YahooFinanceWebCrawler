@@ -2,12 +2,13 @@ import selenium
 import bs4
 import time
 import csv
+import sys
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 
 from bs4 import BeautifulSoup
 
@@ -36,8 +37,15 @@ class YfinanceCrawler:
         checkbox.click()
 
         #Seleciona a regiao desejada
-        checkbox = menu.find_element(By.XPATH, f"//span[contains(text(), '{self.region}')]/../input[@type='checkbox']")
-        checkbox.click()
+        try:
+            checkbox = menu.find_element(By.XPATH, f"//span[contains(text(), '{self.region}')]/../input[@type='checkbox']")
+            checkbox.click()
+            
+        except NoSuchElementException:
+            print(f"A região '{self.region}' não é um filtro disponível neste momento.")
+            self.driver.close()
+            sys.exit()
+            
 
         #Fecha o menu de regioes
         close_button = menu.find_element(By.CLASS_NAME, "close")
@@ -53,6 +61,7 @@ class YfinanceCrawler:
         self.driver.get(self.url)
         self.filter()
         self.extraction()
+        self.driver.close()
         self.save_to_csv()
         
         
