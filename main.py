@@ -43,8 +43,7 @@ class YfinanceCrawler:
         #Caso a regiao desejada nao seja um dos filtros diponiveis    
         except NoSuchElementException:
             print(f"A região '{self.region}' não é um filtro disponível neste momento.")
-            self.driver.close()
-            sys.exit()
+            return False
             
 
         #Fecha o menu de regioes
@@ -56,13 +55,17 @@ class YfinanceCrawler:
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(find_button))
         find_button.click()
 
+        return True
+
     #Executa
     def run(self):
         self.driver.get(self.url)
-        self.filter()
-        self.extraction()
+        correct = self.filter()
+        if correct:
+            self.extraction()
+            self.save_to_csv()
         self.driver.close()
-        self.save_to_csv()
+        
         
         
     #Extracao
