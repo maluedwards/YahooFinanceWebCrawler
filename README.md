@@ -20,3 +20,7 @@ Para usar o Yahoo Finance WebCrawler, siga estas etapas:
 2. Informe a Região desejada.
 3. Espere o programa finalizar a execução.
 4. Pronto! Seu arquivo csv pode ser localizado na mesma pasta que o arquivo main.py.
+
+## Testes Unitários
+
+O arquivo teste.py contém alguns testes unitários que testam partes do código principal individualmente.
